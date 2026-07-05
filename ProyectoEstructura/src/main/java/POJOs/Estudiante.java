@@ -6,9 +6,9 @@ package POJOs;
 
 /**
  *
- * @author Usuario
+ * Clase estudiante que implementa comparable para poder comparar las matriculas en el arbol binario de busqueda
  */
-public class Estudiante {
+public class Estudiante implements Comparable<Estudiante>{
     
     private String matricula;
     private String nombreCompleto;
@@ -18,7 +18,7 @@ public class Estudiante {
     public Estudiante(String matricula, String nombreCompleto, Integer[] calificaciones, Contacto contacto) {
         this.matricula = matricula;
         this.nombreCompleto = nombreCompleto;
-        this.calificaciones = calificaciones;
+        this.calificaciones = null;
         this.contacto = contacto;
     }
 
@@ -56,6 +56,23 @@ public class Estudiante {
     public void setContacto(Contacto contacto) {
         this.contacto = contacto;
     }
+
+    @Override
+    public int compareTo(Estudiante o) {
+        return this.matricula.compareTo(o.matricula);
+       
+    }
+    
+    //Metodo para generar una matricula entre 100 y 1000
+    public String generarMatricula(){
+        return "A" + (100 + (int)(Math.random()*1000));
+    }
+
+    @Override
+    public String toString() {
+        return "Estudiante{" + "matricula=" + matricula + ", nombreCompleto=" + nombreCompleto + ", calificaciones=" + calificaciones + ", contacto=" + contacto + '}';
+    }
+    
     
     
     

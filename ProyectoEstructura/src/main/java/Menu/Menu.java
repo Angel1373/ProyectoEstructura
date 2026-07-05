@@ -4,6 +4,11 @@
  */
 package Menu;
 
+import Implementaciones.BinarySearchTree;
+import POJOs.Contacto;
+import POJOs.Direccion;
+import POJOs.Estudiante;
+import excepciones.BinarySearchTreeException;
 import java.util.Scanner;
 
 /**
@@ -11,7 +16,10 @@ import java.util.Scanner;
  */
 public class Menu {
     public static void main(String[] args) {
+        
+        BinarySearchTree arbol = new BinarySearchTree();
        
+        while(true){             
         Scanner sc = new Scanner(System.in);
        
         System.out.println("MENU DEL SISTEMA");
@@ -34,12 +42,44 @@ public class Menu {
         System.out.println("11. Listar estudiantes ordenados por promedio");
         
         int respuesta = sc.nextInt();
+        sc.nextLine();
         
         switch(respuesta){
             case 1:
+                System.out.println("Escriba el nombre completo del estudiante");
+                String nombre = sc.nextLine();
+                System.out.println("Escriba el telefono del estudiante");
+                String telefono = sc.nextLine();
+                System.out.println("Escriba el correo del estudiante");
+                String correo = sc.nextLine();
+                System.out.println("Escriba la calle del estudiante");
+                String calle = sc.nextLine();
+                System.out.println("Escriba el numero de la casa del estudiante");
+                String numero = sc.nextLine();
+                System.out.println("Escriba la colonia del estudiante");
+                String colonia = sc.nextLine();
+                System.out.println("Escriba la ciudad del estudiante");
+                String ciudad = sc.nextLine();
+                Direccion direccion = new Direccion(calle,numero,colonia,ciudad);
+                Contacto contacto = new Contacto(telefono,correo,direccion);
+                Estudiante estudiante = new Estudiante();
+                String matricula = estudiante.generarMatricula();
+                estudiante.setNombreCompleto(nombre);
+                estudiante.setContacto(contacto);
+                estudiante.setMatricula(matricula);
+                try{
+                    arbol.agregar(estudiante);
+                }catch(BinarySearchTreeException e){
+                    System.out.println("Error al intentar agregar al estudiante");
+                }    
+                arbol.imprimirOrden(arbol.raiz);
                 break;
-                
             case 2:
+                System.out.println("Escriba la matricula del estudiante");
+                String matriculaBuscar = sc.nextLine();
+                Estudiante buscar = new Estudiante();
+                buscar.setMatricula(matriculaBuscar);
+                arbol.buscarNodo(buscar);
                 break;
                 
             case 3:
@@ -74,5 +114,6 @@ public class Menu {
                 
         }     
     }
+  }
     
 }
