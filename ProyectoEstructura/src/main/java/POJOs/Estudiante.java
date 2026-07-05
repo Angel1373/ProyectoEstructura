@@ -4,6 +4,8 @@
  */
 package POJOs;
 
+import java.util.Arrays;
+
 /**
  *
  * Clase estudiante que implementa comparable para poder comparar las matriculas en el arbol binario de busqueda
@@ -18,7 +20,7 @@ public class Estudiante implements Comparable<Estudiante>{
     public Estudiante(String matricula, String nombreCompleto, Integer[] calificaciones, Contacto contacto) {
         this.matricula = matricula;
         this.nombreCompleto = nombreCompleto;
-        this.calificaciones = null;
+        this.calificaciones = calificaciones;
         this.contacto = contacto;
     }
 
@@ -70,7 +72,7 @@ public class Estudiante implements Comparable<Estudiante>{
 
     @Override
     public String toString() {
-        return "Estudiante{" + "matricula=" + matricula + ", nombreCompleto=" + nombreCompleto + ", calificaciones=" + calificaciones + ", contacto=" + contacto + '}';
+        return "Estudiante{" + "matricula=" + matricula + ", nombreCompleto=" + nombreCompleto + ", calificaciones=" + Arrays.toString(calificaciones) + ", contacto=" + contacto + '}';
     }
     
     

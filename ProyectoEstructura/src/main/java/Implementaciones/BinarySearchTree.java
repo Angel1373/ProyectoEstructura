@@ -10,7 +10,7 @@ package Implementaciones;
  */
 public class BinarySearchTree<T extends Comparable<T>> {
     
-    public NodoArbol<T> raiz;
+    private NodoArbol<T> raiz;
 
     public void agregar(T dato){
         raiz = agregarNodo(raiz,dato);
@@ -35,9 +35,10 @@ public class BinarySearchTree<T extends Comparable<T>> {
         NodoArbol<T> buscar = buscarNodoRecursivo(dato,raiz);
 
         if(buscar != null){
-            System.out.println("Nodo encontrado");
+            System.out.println("Estudiante encontrado");
+            System.out.println(buscar.getElemento());
         }else{
-            System.out.println("Nodo no encontrado");
+            System.out.println("Estudiante no encontrado");
         }
     }
 
@@ -106,6 +107,10 @@ public class BinarySearchTree<T extends Comparable<T>> {
             System.out.println(actual);
             imprimirOrden(actual.getHijoDerecho());
         }
+    }
+    
+    public void imprimir(){
+        imprimirOrden(raiz);
     }
     
 }

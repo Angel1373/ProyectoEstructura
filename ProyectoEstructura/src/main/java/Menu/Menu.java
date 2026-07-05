@@ -72,7 +72,7 @@ public class Menu {
                 }catch(BinarySearchTreeException e){
                     System.out.println("Error al intentar agregar al estudiante");
                 }    
-                arbol.imprimirOrden(arbol.raiz);
+                arbol.imprimir();
                 break;
             case 2:
                 System.out.println("Escriba la matricula del estudiante");
