@@ -189,5 +189,27 @@ public class DoubleCircularLinkedList<T> {
         }
         inicio.getAnterior().setDato(dato);
     }
+    // Mostrar la lista de espera para el punto 6
+    public void mostrarListaEspera(int mostrar, int direccion) {
+        if (empty()) {
+            System.out.println("La lista esta vacia");
+            return;
+        }
+        Nodo<T> aux = inicio;
+        int i = 0;
+        while (i < mostrar && aux != null) {    
+            System.out.println("[" + aux.getDato().toString() + "]");
+            
+            if (direccion == 1) {
+                aux = aux.getSiguiente();
+               
+            }else{
+                aux = aux.getAnterior();
+            }
+            i++;
+            
+        }
+
+    }
     
 }

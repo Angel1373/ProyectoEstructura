@@ -12,6 +12,11 @@ package Implementaciones;
 public class LinkedList<T> {
     private Nodo<T> cabeza;
 
+    public LinkedList() {
+    }
+    
+    
+
     public LinkedList(T dato) {
         Nodo<T> nodoNuevo = new Nodo<>(dato);
         cabeza = nodoNuevo;

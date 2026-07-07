@@ -6,6 +6,7 @@ package Menu;
 
 import Implementaciones.BinarySearchTree;
 import POJOs.Contacto;
+import POJOs.Curso;
 import POJOs.Direccion;
 import POJOs.Estudiante;
 import excepciones.BinarySearchTreeException;
@@ -92,12 +93,52 @@ public class Menu {
                 break;
                 
             case 6:
+                System.out.println("Escriba la matricula del estudiante");
+                String matInsc = sc.nextLine();
+                System.out.println("Escriba el nombre completo del estudiante");
+                String nomInsc = sc.nextLine();
+
+                Estudiante alumno = new Estudiante();
+                alumno.setMatricula(matInsc);
+                alumno.setNombreCompleto(nomInsc);
+
+                System.out.println("Escriba el nombre del curso");
+                String nomCurso = sc.nextLine();
+                
+                Curso cursoSeleccionado = new Curso();
+                cursoSeleccionado.setNombreCurso(nomCurso);
+                cursoSeleccionado.inscribir(alumno);
                 break;    
                 
             case 7:
-                break;    
+                System.out.println("Escriba el nombre del curso");
+                String cursoMostrar = sc.nextLine();
+
+                Curso cursoM = new Curso();
+                cursoM.setNombreCurso(cursoMostrar);
+
+                System.out.println("Alumnos Inscritos:");
+                cursoM.getInscritos().mostrar();
+                break;
                 
             case 8:
+                System.out.println("Escriba el nombre del curso");
+                String cursoEspera = sc.nextLine();
+
+                System.out.println("Cuantos estudiantes de la lista de espera desea mostrar?");
+                int Mostrar = sc.nextInt();
+                sc.nextLine();
+           
+                System.out.println("Seleccione el sentido del recorrido:");
+                System.out.println("1. Hacia adelante (Siguiente)");
+                System.out.println("2. Hacia atras (Anterior)");
+                int Direccion = sc.nextInt();
+                sc.nextLine();
+                
+                Curso cursoE = new Curso();
+                cursoE.setNombreCurso(cursoEspera);
+                cursoE.getListaEspera().mostrarListaEspera(Mostrar, Direccion);
+               
                 break;    
                 
             case 9:
