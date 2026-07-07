@@ -5,6 +5,7 @@
 package Menu;
 
 import Implementaciones.BinarySearchTree;
+import Implementaciones.CircularLinkedList;
 import POJOs.Contacto;
 import POJOs.Curso;
 import POJOs.Direccion;
@@ -19,6 +20,7 @@ public class Menu {
     public static void main(String[] args) {
         
         BinarySearchTree arbol = new BinarySearchTree();
+        CircularLinkedList listaCircular = new CircularLinkedList();
        
         while(true){             
         Scanner sc = new Scanner(System.in);
@@ -41,6 +43,7 @@ public class Menu {
         System.out.println("10. Procesar siguiente solicitud");
         System.out.println("REPORTES--------------------------------");
         System.out.println("11. Listar estudiantes ordenados por promedio");
+        System.out.println("12. Rotar roles");
         
         int respuesta = sc.nextInt();
         sc.nextLine();
@@ -70,6 +73,7 @@ public class Menu {
                 estudiante.setMatricula(matricula);
                 try{
                     arbol.agregar(estudiante);
+                    listaCircular.agregar(estudiante);
                 }catch(BinarySearchTreeException e){
                     System.out.println("Error al intentar agregar al estudiante");
                 }    
@@ -148,7 +152,19 @@ public class Menu {
                 break;
                 
             case 11:
-                break;    
+                break;  
+                
+            case 12:
+                System.out.println("Desea rotar roles, escriba SI/NO");
+                String res = sc.nextLine();
+                if(res.equalsIgnoreCase("SI")){
+                    String mensaje =listaCircular.rotarRol();
+                    System.out.println(mensaje);
+                }else{
+                  break;  
+                }
+                
+                break;
                 
             default:
                 System.out.println("Escriba un numero valido");

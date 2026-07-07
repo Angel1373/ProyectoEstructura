@@ -15,6 +15,10 @@ public class BinarySearchTree<T extends Comparable<T>> {
     public void agregar(T dato){
         raiz = agregarNodo(raiz,dato);
     }
+    
+    /**
+     *Metodo para agregar un objeto a un arbol binario de busqueda y que este ordenado
+     */
 
     private NodoArbol<T> agregarNodo(NodoArbol<T> actual,T dato){
         if(actual == null){
@@ -30,7 +34,10 @@ public class BinarySearchTree<T extends Comparable<T>> {
         }
         return actual;
     }
-
+    
+    /**
+     * Metodo para buscar un nodo - metodo publico
+     */
     public void buscarNodo(T dato){
         NodoArbol<T> buscar = buscarNodoRecursivo(dato,raiz);
 
@@ -42,6 +49,10 @@ public class BinarySearchTree<T extends Comparable<T>> {
         }
     }
 
+    /**
+     * Metodo para buscar un nodo y compara que no sea mayor o menor hasta que no sea ninguno de los 2 y
+     * eso significa que el nodo que buscamos es igual al del metodo recursivo
+     */
     private NodoArbol<T> buscarNodoRecursivo(T dato,NodoArbol<T> actual){
         if(raiz == null){
             System.out.println("Arbol vacío");
@@ -62,7 +73,10 @@ public class BinarySearchTree<T extends Comparable<T>> {
     public void eliminar(T dato){
         raiz = eliminarRecursivo(dato,raiz);
     }
-
+    
+    /**
+     * Metodo para eliminar un nodo
+     */
     private NodoArbol<T> eliminarRecursivo(T dato, NodoArbol<T> actual){
         if(actual == null){
             return null;
@@ -101,6 +115,9 @@ public class BinarySearchTree<T extends Comparable<T>> {
         return actual;
     }
 
+    /**
+     * Metodo para imprimir en orden en un arbol binario 
+     */
     public void imprimirOrden(NodoArbol<T> actual){
         if(actual != null){
             imprimirOrden(actual.getHijoIzquierdo());
