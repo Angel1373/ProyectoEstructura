@@ -3,10 +3,9 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package Implementaciones;
-
+import java.util.ArrayList;
 /**
- *
- * @author Usuario
+ *Clase de un arbol binario
  */
 public class BinarySearchTree<T extends Comparable<T>> {
     
@@ -130,4 +129,19 @@ public class BinarySearchTree<T extends Comparable<T>> {
         imprimirOrden(raiz);
     }
     
+    //Metodo public para obtener a los estudiantes ordenados por matricula recorriendo el arbol binario
+    public ArrayList<T> obtenerListaEstudiantesOrdenados(){
+        ArrayList<T> lista = new ArrayList<>();
+        llenarListaRecursivo(raiz,lista);
+        return lista;
+    }
+    //Metodo privado para obtener recursivamente en orden a los estudiantes del arbol binario
+    private void llenarListaRecursivo(NodoArbol<T> actual, ArrayList<T> lista){
+        if(actual != null){
+            llenarListaRecursivo(actual.getHijoIzquierdo(),lista);
+            lista.add(actual.getElemento());
+            llenarListaRecursivo(actual.getHijoDerecho(),lista);
+        }
+    }
+       
 }
