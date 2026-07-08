@@ -11,6 +11,7 @@ import POJOs.Curso;
 import POJOs.Direccion;
 import POJOs.Estudiante;
 import excepciones.BinarySearchTreeException;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 /**
@@ -30,20 +31,21 @@ public class Menu {
         System.out.println("ESTUDIANTES------------------------------");
         System.out.println("1. Registrar estudiantes");
         System.out.println("2. Buscar estudiantes por matricula");
+        System.out.println("3. Listar los estudiantes ordenados por promedio");
         System.out.println("CURSOS-----------------------------------");
-        System.out.println("3. Agregar curso");
-        System.out.println("4. Eliminar curso");
-        System.out.println("5. Listar cursos");
+        System.out.println("4. Agregar curso");
+        System.out.println("5. Eliminar curso");
+        System.out.println("6. Listar cursos");
         System.out.println("INSCRIPCIONES---------------------------");
-        System.out.println("6. Inscribir estudiante en curso");
-        System.out.println("7. Mostrar lista de inscritos de un curso");
-        System.out.println("8. Mostrar lista de espera de un curso");
+        System.out.println("7. Inscribir estudiante en curso");
+        System.out.println("8. Mostrar lista de inscritos de un curso");
+        System.out.println("9. Mostrar lista de espera de un curso");
         System.out.println("CALIFICAIONES---------------------------");
-        System.out.println("9. Enviar solicitud de calificación");
-        System.out.println("10. Procesar siguiente solicitud");
+        System.out.println("10. Enviar solicitud de calificación");
+        System.out.println("11. Procesar siguiente solicitud");
         System.out.println("REPORTES--------------------------------");
-        System.out.println("11. Listar estudiantes ordenados por promedio");
-        System.out.println("12. Rotar roles");
+        System.out.println("12. Listar estudiantes ordenados por promedio");
+        System.out.println("13. Rotar roles");
         
         int respuesta = sc.nextInt();
         sc.nextLine();
@@ -64,6 +66,18 @@ public class Menu {
                 String colonia = sc.nextLine();
                 System.out.println("Escriba la ciudad del estudiante");
                 String ciudad = sc.nextLine();
+                System.out.println("Desea agregar las calificaciones al estudiante? SI/NO");
+                String respuestasc = sc.nextLine();
+                ArrayList<Integer> calificaciones = new ArrayList<>();
+                while(respuestasc.equalsIgnoreCase("SI")){
+                    System.out.println("Escriba la calificacion del alumno");
+                    int calificacion = sc.nextInt();
+                    sc.nextLine();
+                    calificaciones.add(calificacion);
+                    System.out.println("Desea agregar otra calificacion? SI/NO");
+                    respuestasc = sc.nextLine();
+                }
+                
                 Direccion direccion = new Direccion(calle,numero,colonia,ciudad);
                 Contacto contacto = new Contacto(telefono,correo,direccion);
                 Estudiante estudiante = new Estudiante();
@@ -71,6 +85,7 @@ public class Menu {
                 estudiante.setNombreCompleto(nombre);
                 estudiante.setContacto(contacto);
                 estudiante.setMatricula(matricula);
+                estudiante.setCalificaciones(calificaciones);
                 try{
                     arbol.agregar(estudiante);
                     listaCircular.agregar(estudiante);
@@ -97,7 +112,11 @@ public class Menu {
                 break;
                 
             case 6:
-                System.out.println("Escriba la matricula del estudiante");
+               
+                break;    
+                
+            case 7:
+               System.out.println("Escriba la matricula del estudiante");
                 String matInsc = sc.nextLine();
                 System.out.println("Escriba el nombre completo del estudiante");
                 String nomInsc = sc.nextLine();
@@ -112,9 +131,9 @@ public class Menu {
                 Curso cursoSeleccionado = new Curso();
                 cursoSeleccionado.setNombreCurso(nomCurso);
                 cursoSeleccionado.inscribir(alumno);
-                break;    
+                break;               
+            case 8:
                 
-            case 7:
                 System.out.println("Escriba el nombre del curso");
                 String cursoMostrar = sc.nextLine();
 
@@ -122,11 +141,11 @@ public class Menu {
                 cursoM.setNombreCurso(cursoMostrar);
 
                 System.out.println("Alumnos Inscritos:");
-                cursoM.getInscritos().mostrar();
-                break;
+                cursoM.getInscritos().mostrar();          
+                break;    
                 
-            case 8:
-                System.out.println("Escriba el nombre del curso");
+            case 9:
+                 System.out.println("Escriba el nombre del curso");
                 String cursoEspera = sc.nextLine();
 
                 System.out.println("Cuantos estudiantes de la lista de espera desea mostrar?");
@@ -142,10 +161,6 @@ public class Menu {
                 Curso cursoE = new Curso();
                 cursoE.setNombreCurso(cursoEspera);
                 cursoE.getListaEspera().mostrarListaEspera(Mostrar, Direccion);
-               
-                break;    
-                
-            case 9:
                 break;    
                 
             case 10:
@@ -154,18 +169,17 @@ public class Menu {
             case 11:
                 break;  
                 
-            case 12:
-                System.out.println("Desea rotar roles, escriba SI/NO");
+            case 12:             
+                break;
+            case 13:
+             System.out.println("Desea rotar roles, escriba SI/NO");
                 String res = sc.nextLine();
                 if(res.equalsIgnoreCase("SI")){
                     String mensaje =listaCircular.rotarRol();
                     System.out.println(mensaje);
                 }else{
                   break;  
-                }
-                
-                break;
-                
+                }   
             default:
                 System.out.println("Escriba un numero valido");
                 

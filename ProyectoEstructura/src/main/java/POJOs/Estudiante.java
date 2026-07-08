@@ -4,7 +4,8 @@
  */
 package POJOs;
 
-import java.util.Arrays;
+import java.util.ArrayList;
+
 
 /**
  *
@@ -14,10 +15,10 @@ public class Estudiante implements Comparable<Estudiante>{
     
     private String matricula;
     private String nombreCompleto;
-    private Integer[] calificaciones;
+    private ArrayList<Integer>  calificaciones;
     private Contacto contacto;
 
-    public Estudiante(String matricula, String nombreCompleto, Integer[] calificaciones, Contacto contacto) {
+    public Estudiante(String matricula, String nombreCompleto, ArrayList calificaciones, Contacto contacto) {
         this.matricula = matricula;
         this.nombreCompleto = nombreCompleto;
         this.calificaciones = calificaciones;
@@ -43,13 +44,15 @@ public class Estudiante implements Comparable<Estudiante>{
         this.nombreCompleto = nombreCompleto;
     }
 
-    public Integer[] getCalificaciones() {
+    public ArrayList<Integer> getCalificaciones() {
         return calificaciones;
     }
 
-    public void setCalificaciones(Integer[] calificaciones) {
+    public void setCalificaciones(ArrayList<Integer> calificaciones) {
         this.calificaciones = calificaciones;
     }
+
+
 
     public Contacto getContacto() {
         return contacto;
@@ -72,10 +75,9 @@ public class Estudiante implements Comparable<Estudiante>{
 
     @Override
     public String toString() {
-        return "Estudiante{" + "matricula=" + matricula + ", nombreCompleto=" + nombreCompleto + ", calificaciones=" + Arrays.toString(calificaciones) + ", contacto=" + contacto + '}';
+        return "Estudiante{" + "matricula=" + matricula + ", nombreCompleto=" + nombreCompleto + ", calificaciones=" + calificaciones + ", contacto=" + contacto + '}';
     }
-    
-    
+ 
     
     
 }
