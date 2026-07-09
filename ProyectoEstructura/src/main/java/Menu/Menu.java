@@ -41,23 +41,22 @@ public class Menu {
         System.out.println("ESTUDIANTES------------------------------");
         System.out.println("1. Registrar estudiantes");
         System.out.println("2. Buscar estudiantes por matricula");
-        System.out.println("3. Listar los estudiantes ordenados por promedio");
         System.out.println("CURSOS-----------------------------------");
-        System.out.println("4. Agregar curso");
-        System.out.println("5. Eliminar curso");
-        System.out.println("6. Listar cursos");
+        System.out.println("3. Agregar curso");
+        System.out.println("4. Eliminar curso");
+        System.out.println("5. Listar cursos");
         System.out.println("INSCRIPCIONES---------------------------");
-        System.out.println("7. Inscribir estudiante en curso");
-        System.out.println("8. Mostrar lista de inscritos de un curso");
-        System.out.println("9. Mostrar lista de espera de un curso");
+        System.out.println("6. Inscribir estudiante en curso");
+        System.out.println("7. Mostrar lista de inscritos de un curso");
+        System.out.println("8. Mostrar lista de espera de un curso");
         System.out.println("CALIFICAIONES---------------------------");
-        System.out.println("10. Enviar solicitud de calificación");
-        System.out.println("11. Procesar siguiente solicitud");
+        System.out.println("9. Enviar solicitud de calificación");
+        System.out.println("10. Procesar siguiente solicitud");
         System.out.println("REPORTES--------------------------------");
-        System.out.println("12. Listar estudiantes ordenados por promedio");
-        System.out.println("13. Rotar roles");
+        System.out.println("11. Listar estudiantes ordenados por promedio");
+        System.out.println("12. Rotar roles");
         System.out.println("ACCIONES--------------------------------");
-        System.out.println("14. Deshacer ultima accion");
+        System.out.println("13. Deshacer ultima accion");
         
         
         int respuesta = sc.nextInt();
@@ -115,17 +114,7 @@ public class Menu {
                 arbol.buscarNodo(buscar);
                 break;
                 
-            case 3:
-                //Obtenemos a los estudiantes del arbol binario
-                ArrayList<Estudiante> estudiantes = arbol.obtenerListaEstudiantesOrdenados();               
-                AVLTree<PromedioEstudiante> avl = new AVLTree<>();
-                //Para cada estudiante calculamos y creamos un PromedioEstudiante para mandarlo al AVL
-                for(Estudiante e : estudiantes){
-                    double promedio = e.calcularPromedioRecursivo();
-                    PromedioEstudiante promedioEstudiante = new PromedioEstudiante(promedio,e);
-                    avl.agregar(promedioEstudiante);
-                }
-                avl.imprimirEnOrdenPorPromedio();                             
+            case 3:                                      
                 break;
                 
             case 4:
@@ -134,12 +123,8 @@ public class Menu {
             case 5:
                 break;
                 
-            case 6:
-               
-                break;    
-                
-            case 7:
-               System.out.println("Escriba la matricula del estudiante");
+            case 6:              
+                System.out.println("Escriba la matricula del estudiante");
                 String matInsc = sc.nextLine();
                 System.out.println("Escriba el nombre completo del estudiante");
                 String nomInsc = sc.nextLine();
@@ -154,14 +139,11 @@ public class Menu {
                 
                 Inscripcion ins = new Inscripcion(alumno, cursoSeleccionado);
                 historial.agregarAccion(new Accion("INSCRIPCION", ins));
-                break;               
-            case 8:
-                System.out.println("Alumnos en " + cursoSeleccionado.getNombreCurso() + ":");
-                cursoSeleccionado.getInscritos().mostrar();         
                 break;    
-                
-            case 9:
-                 
+            case 7:
+                System.out.println("Alumnos en " + cursoSeleccionado.getNombreCurso() + ":");
+                cursoSeleccionado.getInscritos().mostrar();                          
+            case 8:    
                 System.out.println("Cuantos estudiantes de la lista de espera desea mostrar?");
                 int Mostrar = sc.nextInt();
                 sc.nextLine();
@@ -172,41 +154,48 @@ public class Menu {
                 int Direccion = sc.nextInt();
                 sc.nextLine();
                 cursoSeleccionado.getListaEspera().mostrarListaEspera(Mostrar, Direccion);
-                
-               
                 break;    
                 
-            case 10:
+            case 9:
                 System.out.println("Matricula del estudiante:");
                 String mat = sc.nextLine();
                 Estudiante est = new Estudiante();
                 est.setMatricula(mat);
                 Estudiante encontrado = (Estudiante) arbol.buscar(est);
-
                 if (encontrado != null) {
                     System.out.println("Calificacion a asignar:");
                     double cal = sc.nextDouble();
                     sc.nextLine();
                     colaSolicitudes.enqueue(new SolicitudCalificacion(encontrado, cursoSeleccionado, cal));
                     System.out.println("Solicitud en cola.");
-                }
-                break;
+                }               
+              break;    
                 
-                
-            case 11:
-                if (!colaSolicitudes.empty()) {
+            case 10:
+              if (!colaSolicitudes.empty()) {
                     SolicitudCalificacion sol = colaSolicitudes.dequeue();
                     sol.procesarSolicitud(historial);
                 } else {
                     System.out.println("No hay solicitudes pendientes.");
                 }
-                break; 
-                
-            case 12:             
                 break;
                 
-            case 13:
-             System.out.println("Desea rotar roles, escriba SI/NO");
+                
+            case 11:           
+                //Obtenemos a los estudiantes del arbol binario
+                ArrayList<Estudiante> estudiantes = arbol.obtenerListaEstudiantesOrdenados();               
+                AVLTree<PromedioEstudiante> avl = new AVLTree<>();
+                //Para cada estudiante calculamos y creamos un PromedioEstudiante para mandarlo al AVL
+                for(Estudiante e : estudiantes){
+                    double promedio = e.calcularPromedioRecursivo();
+                    PromedioEstudiante promedioEstudiante = new PromedioEstudiante(promedio,e);
+                    avl.agregar(promedioEstudiante);
+                }
+                avl.imprimirEnOrdenPorPromedio();                
+                break; 
+                
+            case 12: 
+                System.out.println("Desea rotar roles, escriba SI/NO");
                 String res = sc.nextLine();
                 if(res.equalsIgnoreCase("SI")){
                     String mensaje =listaCircular.rotarRol();
@@ -216,13 +205,13 @@ public class Menu {
                 }   
                 break;
                 
-            case 14:
+            case 13:
                 Accion ultima = historial.deshacerAccion();
                 if (ultima != null) {
                     ultima.deshacer(arbol);
                 }
                 break;
-            
+                           
             default:
                 System.out.println("Escriba un numero valido");
                 
