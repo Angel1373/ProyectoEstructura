@@ -71,7 +71,44 @@ public class LinkedList<T> {
         }
         Aux.setSiguiente(nodoNuevo);
     }
+    /**
+     * Buscar un dato especifico en la lista y 
+     * eliminando llamando los metodos eliminar de cada tipo de eliminar
+     */
+    public void eliminar(T dato) {
+        if (cabeza == null) {
+            System.out.println("Lista vacia");
+            return;
+        }
 
+        Nodo<T> aux = cabeza;
+        int posicion = 0;
+        boolean encontrado = false;
+
+        // Recorremos la lista 
+        while (aux != null) {
+            // Checamos el dato actual con el que buscamos
+            if (aux.getDato().equals(dato)) {
+                encontrado = true;
+                break; 
+            }
+            aux = aux.getSiguiente();
+            posicion++;
+        }
+
+        // Si lo encontramosmandamos a llamar a los metodos
+        if (encontrado) {
+            if (posicion == 0) {
+                eliminarInicio();
+            } else if (aux.getSiguiente() == null) {
+                eliminarFinal();
+            } else {
+                eliminarMedio(posicion);
+            }
+        } else {
+            System.out.println("Elemento no encontrado en la lista");
+        }
+    }
     public void eliminarInicio() {
         if (cabeza == null) {
             System.out.println("Lista vacia.");

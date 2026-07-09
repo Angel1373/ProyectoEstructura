@@ -4,12 +4,17 @@
  */
 package Menu;
 
+import Implementaciones.ArrayListQueue;
 import Implementaciones.BinarySearchTree;
 import Implementaciones.CircularLinkedList;
+import POJOs.Accion;
+import POJOs.Acciones;
 import POJOs.Contacto;
 import POJOs.Curso;
 import POJOs.Direccion;
 import POJOs.Estudiante;
+import POJOs.Inscripcion;
+import POJOs.SolicitudCalificacion;
 import excepciones.BinarySearchTreeException;
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -22,9 +27,12 @@ public class Menu {
         
         BinarySearchTree arbol = new BinarySearchTree();
         CircularLinkedList listaCircular = new CircularLinkedList();
-       
-        while(true){             
+        ArrayListQueue<SolicitudCalificacion> colaSolicitudes = new ArrayListQueue<>(SolicitudCalificacion.class, 50);
+        Acciones historial = new Acciones();
+        Curso cursoSeleccionado = new Curso("Estructuras de Datos", 30);
         Scanner sc = new Scanner(System.in);
+
+        while(true){             
        
         System.out.println("MENU DEL SISTEMA");
         System.out.println("ESCRIBA UN NUMERO PARA ACCEDER");
@@ -46,6 +54,9 @@ public class Menu {
         System.out.println("REPORTES--------------------------------");
         System.out.println("12. Listar estudiantes ordenados por promedio");
         System.out.println("13. Rotar roles");
+        System.out.println("ACCIONES--------------------------------");
+        System.out.println("14. Deshacer ultima accion");
+        
         
         int respuesta = sc.nextInt();
         sc.nextLine();
@@ -125,29 +136,20 @@ public class Menu {
                 alumno.setMatricula(matInsc);
                 alumno.setNombreCompleto(nomInsc);
 
-                System.out.println("Escriba el nombre del curso");
-                String nomCurso = sc.nextLine();
-                
-                Curso cursoSeleccionado = new Curso();
-                cursoSeleccionado.setNombreCurso(nomCurso);
                 cursoSeleccionado.inscribir(alumno);
+                
+                cursoSeleccionado.inscribir(alumno);
+                
+                Inscripcion ins = new Inscripcion(alumno, cursoSeleccionado);
+                historial.agregarAccion(new Accion("INSCRIPCION", ins));
                 break;               
             case 8:
-                
-                System.out.println("Escriba el nombre del curso");
-                String cursoMostrar = sc.nextLine();
-
-                Curso cursoM = new Curso();
-                cursoM.setNombreCurso(cursoMostrar);
-
-                System.out.println("Alumnos Inscritos:");
-                cursoM.getInscritos().mostrar();          
+                System.out.println("Alumnos en " + cursoSeleccionado.getNombreCurso() + ":");
+                cursoSeleccionado.getInscritos().mostrar();         
                 break;    
                 
             case 9:
-                 System.out.println("Escriba el nombre del curso");
-                String cursoEspera = sc.nextLine();
-
+                 
                 System.out.println("Cuantos estudiantes de la lista de espera desea mostrar?");
                 int Mostrar = sc.nextInt();
                 sc.nextLine();
@@ -157,20 +159,40 @@ public class Menu {
                 System.out.println("2. Hacia atras (Anterior)");
                 int Direccion = sc.nextInt();
                 sc.nextLine();
+                cursoSeleccionado.getListaEspera().mostrarListaEspera(Mostrar, Direccion);
                 
-                Curso cursoE = new Curso();
-                cursoE.setNombreCurso(cursoEspera);
-                cursoE.getListaEspera().mostrarListaEspera(Mostrar, Direccion);
+               
                 break;    
                 
             case 10:
+                System.out.println("Matricula del estudiante:");
+                String mat = sc.nextLine();
+                Estudiante est = new Estudiante();
+                est.setMatricula(mat);
+                Estudiante encontrado = (Estudiante) arbol.buscar(est);
+
+                if (encontrado != null) {
+                    System.out.println("Calificacion a asignar:");
+                    double cal = sc.nextDouble();
+                    sc.nextLine();
+                    colaSolicitudes.enqueue(new SolicitudCalificacion(encontrado, cursoSeleccionado, cal));
+                    System.out.println("Solicitud en cola.");
+                }
                 break;
                 
+                
             case 11:
-                break;  
+                if (!colaSolicitudes.empty()) {
+                    SolicitudCalificacion sol = colaSolicitudes.dequeue();
+                    sol.procesarSolicitud(historial);
+                } else {
+                    System.out.println("No hay solicitudes pendientes.");
+                }
+                break; 
                 
             case 12:             
                 break;
+                
             case 13:
              System.out.println("Desea rotar roles, escriba SI/NO");
                 String res = sc.nextLine();
@@ -178,8 +200,16 @@ public class Menu {
                     String mensaje =listaCircular.rotarRol();
                     System.out.println(mensaje);
                 }else{
-                  break;  
+                 
                 }   
+                break;
+            case 14:
+                Accion ultima = historial.deshacerAccion();
+                if (ultima != null) {
+                    ultima.deshacer(arbol);
+                }
+                break;
+            
             default:
                 System.out.println("Escriba un numero valido");
                 

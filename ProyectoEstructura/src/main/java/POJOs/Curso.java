@@ -80,7 +80,13 @@ public class Curso {
     public void setListaEspera(DoubleCircularLinkedList<Estudiante> listaEspera) {
         this.listaEspera = listaEspera;
     }
+    public int getTotalInscritos() {
+        return totalInscritos;
+    }
 
+    public void setTotalInscritos(int totalInscritos) {
+        this.totalInscritos = totalInscritos;
+    }
     
     
 }

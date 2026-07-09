@@ -129,5 +129,10 @@ public class BinarySearchTree<T extends Comparable<T>> {
     public void imprimir(){
         imprimirOrden(raiz);
     }
+    // para que regrese un dato
+    public T buscar(T dato) {
+        NodoArbol<T> nodo = buscarNodoRecursivo(dato, raiz);
+        return (nodo != null) ? nodo.getElemento() : null;
+    }
     
 }
