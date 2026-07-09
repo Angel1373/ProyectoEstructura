@@ -5,6 +5,7 @@
 package Menu;
 
 import Implementaciones.ArrayListQueue;
+import Implementaciones.AVLTree;
 import Implementaciones.BinarySearchTree;
 import Implementaciones.CircularLinkedList;
 import POJOs.Accion;
@@ -15,6 +16,7 @@ import POJOs.Direccion;
 import POJOs.Estudiante;
 import POJOs.Inscripcion;
 import POJOs.SolicitudCalificacion;
+import POJOs.PromedioEstudiante;
 import excepciones.BinarySearchTreeException;
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -79,10 +81,10 @@ public class Menu {
                 String ciudad = sc.nextLine();
                 System.out.println("Desea agregar las calificaciones al estudiante? SI/NO");
                 String respuestasc = sc.nextLine();
-                ArrayList<Integer> calificaciones = new ArrayList<>();
+                ArrayList<Double> calificaciones = new ArrayList<>();
                 while(respuestasc.equalsIgnoreCase("SI")){
                     System.out.println("Escriba la calificacion del alumno");
-                    int calificacion = sc.nextInt();
+                    double calificacion = sc.nextInt();
                     sc.nextLine();
                     calificaciones.add(calificacion);
                     System.out.println("Desea agregar otra calificacion? SI/NO");
@@ -114,6 +116,16 @@ public class Menu {
                 break;
                 
             case 3:
+                //Obtenemos a los estudiantes del arbol binario
+                ArrayList<Estudiante> estudiantes = arbol.obtenerListaEstudiantesOrdenados();               
+                AVLTree<PromedioEstudiante> avl = new AVLTree<>();
+                //Para cada estudiante calculamos y creamos un PromedioEstudiante para mandarlo al AVL
+                for(Estudiante e : estudiantes){
+                    double promedio = e.calcularPromedioRecursivo();
+                    PromedioEstudiante promedioEstudiante = new PromedioEstudiante(promedio,e);
+                    avl.agregar(promedioEstudiante);
+                }
+                avl.imprimirEnOrdenPorPromedio();                             
                 break;
                 
             case 4:
@@ -203,6 +215,7 @@ public class Menu {
                  
                 }   
                 break;
+                
             case 14:
                 Accion ultima = historial.deshacerAccion();
                 if (ultima != null) {

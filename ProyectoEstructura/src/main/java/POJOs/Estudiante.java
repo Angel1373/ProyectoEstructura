@@ -15,7 +15,7 @@ public class Estudiante implements Comparable<Estudiante>{
     
     private String matricula;
     private String nombreCompleto;
-    private ArrayList<Integer>  calificaciones;
+    private ArrayList<Double>  calificaciones;
     private Contacto contacto;
 
     public Estudiante(String matricula, String nombreCompleto, ArrayList calificaciones, Contacto contacto) {
@@ -44,15 +44,15 @@ public class Estudiante implements Comparable<Estudiante>{
         this.nombreCompleto = nombreCompleto;
     }
 
-    public ArrayList<Integer> getCalificaciones() {
+    public ArrayList<Double> getCalificaciones() {
         return calificaciones;
     }
 
-    public void setCalificaciones(ArrayList<Integer> calificaciones) {
+    public void setCalificaciones(ArrayList<Double> calificaciones) {
         this.calificaciones = calificaciones;
     }
 
-
+  
 
     public Contacto getContacto() {
         return contacto;
@@ -78,6 +78,18 @@ public class Estudiante implements Comparable<Estudiante>{
         return "Estudiante{" + "matricula=" + matricula + ", nombreCompleto=" + nombreCompleto + ", calificaciones=" + calificaciones + ", contacto=" + contacto + '}';
     }
  
+    public double calcularPromedioRecursivo(){
+        if(calificaciones == null || calificaciones.isEmpty()){
+            return 0.0;
+        }
+        return sumarRecursivo(0) / calificaciones.size(); 
+    }
     
+    private double sumarRecursivo(int indice){
+        if(indice == calificaciones.size()){
+            return 0.0;
+        }
+        return calificaciones.get(indice) + sumarRecursivo(indice + 1);
+    }
     
 }
