@@ -177,8 +177,7 @@ public class Menu {
                 Estudiante buscar2 = new Estudiante();
                 buscar2.setMatricula(matInsc);
                 Estudiante estudianteBuscado = arbol.buscar(buscar2);
-                if(estudianteBuscado != null){
-                    cursoSeleccionado.inscribir(buscar2);            
+                if(estudianteBuscado != null){            
                     System.out.println("Escriba la clave del curso a inscribir");
                     String claveCurso = sc.nextLine();
                     Curso cursoSelec = catalogoDeCursos.obtenerValor(claveCurso);
@@ -194,20 +193,39 @@ public class Menu {
                 }
                 break;    
             case 7:
-                System.out.println("Alumnos en " + cursoSeleccionado.getNombreCurso() + ":");
-                cursoSeleccionado.getInscritos().mostrar();     
+                System.out.println("Escriba la clave del curso o atras para salir");   
+                String claveCurso = sc.nextLine();
+                if(claveCurso.equalsIgnoreCase("atras")){
+                    break;
+                }
+                Curso cursoBuscado = catalogoDeCursos.obtenerValor(claveCurso);
+                if(cursoBuscado!=null){
+                    System.out.println("Alumnos del curso: " + cursoBuscado.getNombreCurso());
+                    cursoBuscado.getInscritos().mostrar();
+                }else{
+                    System.out.println("No se encontro el curso");
+                }
                 break;
             case 8:    
-                System.out.println("Cuantos estudiantes de la lista de espera desea mostrar? o atras para salir");
-                int Mostrar = sc.nextInt();
-                sc.nextLine();
-           
-                System.out.println("Seleccione el sentido del recorrido:");
-                System.out.println("1. Hacia adelante (Siguiente)");
-                System.out.println("2. Hacia atras (Anterior)");
-                int Direccion = sc.nextInt();
-                sc.nextLine();
-                cursoSeleccionado.getListaEspera().mostrarListaEspera(Mostrar, Direccion);
+                 System.out.println("Escriba la clave del curso o atras para salir");   
+                String claveC = sc.nextLine();
+                if(claveC.equalsIgnoreCase("atras")){
+                    break;
+                }
+                Curso cursoS = catalogoDeCursos.obtenerValor(claveC);
+                if(cursoS == null){
+                    System.out.println("No se encontro el curso seleccionado");
+                    break;
+                }
+                //Esto es para que el usuario controle cuantas veces se va a recorrer
+                System.out.println("Cuantos en la lista de estudiantes desea mostrar?");
+                int opcion = sc.nextInt();
+                
+                System.out.println("Seleccione el sentido del recorrido");
+                System.out.println("1 para ir hacia adelante (siguiente)");
+                System.out.println("2 para ir hacia atras (anterior)");
+                int lado = sc.nextInt();
+                cursoS.getListaEspera().mostrarListaEspera(opcion, lado);         
                 break;    
                 
             case 9:
@@ -219,23 +237,39 @@ public class Menu {
                 Estudiante est = new Estudiante();
                 est.setMatricula(mat);
                 
-                Estudiante encontrado = (Estudiante) arbol.buscar(est);
+                Estudiante encontrado = arbol.buscar(est);
                 if (encontrado != null) {
-                    System.out.println("Calificacion a asignar:");
-                    double cal = sc.nextDouble();
-                    sc.nextLine();
-                    colaSolicitudes.enqueue(new SolicitudCalificacion(encontrado, cursoSeleccionado, cal));
-                    System.out.println("Solicitud en cola.");
+                    System.out.println("Escriba la clave del curso");
+                    String cursoClave =  sc.nextLine();
+                    Curso cursoSelec = catalogoDeCursos.obtenerValor(cursoClave);
+                    if(cursoSelec != null){
+                        System.out.println("Escriba la calificacion a asignar");
+                        double calificacion = sc.nextDouble();
+                        //Enviamos la solicitud a la cola
+                        colaSolicitudes.enqueue(new SolicitudCalificacion(encontrado,cursoSelec,calificacion));
+                        System.out.println("Solicitud en cola");
+                    }else{
+                        System.out.println("No se encontro el curso");
+                    }
+                }else{
+                    System.out.println("No se encontro el alumno");
                 }               
               break;    
                 
             case 10:
-              if (!colaSolicitudes.empty()) {
-                    SolicitudCalificacion sol = colaSolicitudes.dequeue();
-                    sol.procesarSolicitud(historial);
-                } else {
-                    System.out.println("No hay solicitudes pendientes.");
-                }
+                //Obtenemos la ultima solicitud de la cola
+                SolicitudCalificacion solicitud = colaSolicitudes.dequeue();
+                if(solicitud != null){
+                    Estudiante estudianteNuevaCalificacion = solicitud.getEstudiante();
+                    double nuevaCalif = solicitud.getCalificacion();
+                    //Le agregamos la nueva calificacion
+                    estudianteNuevaCalificacion.getCalificaciones().add(nuevaCalif);
+                    //Enviamos la accion para poder deshacerla
+                    historial.agregarAccion(new Accion("CALIFICACION",estudianteNuevaCalificacion));
+                    System.out.println("Calficacion procesada");
+                }else{
+                    System.out.println("No hay solicitudes pendientes");
+                }            
                 break;           
             case 11:           
                 //Obtenemos a los estudiantes del arbol binario
