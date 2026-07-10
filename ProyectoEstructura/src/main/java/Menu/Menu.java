@@ -176,9 +176,7 @@ public class Menu {
                 } else {
                     System.out.println("No hay solicitudes pendientes.");
                 }
-                break;
-                
-                
+                break;           
             case 11:           
                 //Obtenemos a los estudiantes del arbol binario
                 ArrayList<Estudiante> estudiantes = arbol.obtenerListaEstudiantesOrdenados();               
