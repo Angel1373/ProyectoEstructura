@@ -8,6 +8,7 @@ import Implementaciones.ArrayListQueue;
 import Implementaciones.AVLTree;
 import Implementaciones.BinarySearchTree;
 import Implementaciones.CircularLinkedList;
+import Implementaciones.HashMap;
 import POJOs.Accion;
 import POJOs.Acciones;
 import POJOs.Contacto;
@@ -18,6 +19,7 @@ import POJOs.Inscripcion;
 import POJOs.SolicitudCalificacion;
 import POJOs.PromedioEstudiante;
 import excepciones.BinarySearchTreeException;
+import excepciones.MainException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -27,17 +29,19 @@ import java.util.Scanner;
 public class Menu {
     public static void main(String[] args) {
         
-        BinarySearchTree arbol = new BinarySearchTree();
+        BinarySearchTree<Estudiante> arbol = new BinarySearchTree();
         CircularLinkedList listaCircular = new CircularLinkedList();
         ArrayListQueue<SolicitudCalificacion> colaSolicitudes = new ArrayListQueue<>(SolicitudCalificacion.class, 50);
         Acciones historial = new Acciones();
-        Curso cursoSeleccionado = new Curso("Estructuras de Datos", 30);
+        HashMap<String,Curso> catalogoDeCursos = new HashMap<>(20);
+        Curso cursoSeleccionado = new Curso("2","Estructuras de Datos", 30);
         Scanner sc = new Scanner(System.in);
 
         while(true){             
        
+        System.out.println("\n");
         System.out.println("MENU DEL SISTEMA");
-        System.out.println("ESCRIBA UN NUMERO PARA ACCEDER");
+        System.out.println("ESCRIBA UN NUMERO PARA ACCEDER O ESCRIBA atras/ATRAS si desea salir");
         System.out.println("ESTUDIANTES------------------------------");
         System.out.println("1. Registrar estudiantes");
         System.out.println("2. Buscar estudiantes por matricula");
@@ -56,7 +60,7 @@ public class Menu {
         System.out.println("11. Listar estudiantes ordenados por promedio");
         System.out.println("12. Rotar roles");
         System.out.println("ACCIONES--------------------------------");
-        System.out.println("13. Deshacer ultima accion \n\n");
+        System.out.println("13. Deshacer ultima accion \n");
         
              
         int respuesta = sc.nextInt();
@@ -64,8 +68,11 @@ public class Menu {
         
         switch(respuesta){
             case 1:
-                System.out.println("Escriba el nombre completo del estudiante");
+                System.out.println("Escriba el nombre completo del estudiante o atras para salir");
                 String nombre = sc.nextLine();
+                if(nombre.equalsIgnoreCase("atras")){
+                    break;
+                }
                 System.out.println("Escriba el telefono del estudiante");
                 String telefono = sc.nextLine();
                 System.out.println("Escriba el correo del estudiante");
@@ -102,39 +109,86 @@ public class Menu {
                     arbol.agregar(estudiante);
                     listaCircular.agregar(estudiante);
                     historial.agregarAccion(new Accion("REGISTRO",estudiante));
-                }catch(BinarySearchTreeException e){
-                    System.out.println("Error al intentar agregar al estudiante");
+                }catch(MainException e){
+                    throw new MainException("Error al intentar agregar al estudiante");
                 }    
                 arbol.imprimir();
                 break;
             case 2:
-                System.out.println("Escriba la matricula del estudiante");
+                System.out.println("Escriba la matricula del estudiante o atras para salir");
                 String matriculaBuscar = sc.nextLine();
+                if(matriculaBuscar.equalsIgnoreCase("atras")){
+                    break;
+                }
                 Estudiante buscar = new Estudiante();
                 buscar.setMatricula(matriculaBuscar);
-                arbol.buscarNodo(buscar);
+                try{
+                   arbol.buscarNodo(buscar);
+                }catch(MainException e){
+                    throw new MainException("Estudiante no encontrado");
+                }  
                 break;
+            case 3:     
+                System.out.println("Escriba la clave del curso o atras para salir");
+                String clave = sc.nextLine();
+                if(clave.equalsIgnoreCase("atras")){
+                    break;
+                }
+                System.out.println("Escriba el nombre del curso");
+                String nombreCurso = sc.nextLine();
+                System.out.println("Escriba el cupo maximo del curso");
+                int cupo = sc.nextInt();
                 
-            case 3:                                      
+                //Creamos el curso
+                Curso nuevoCurso = new Curso(clave,nombreCurso,cupo);
+                try{
+                    //Lo mandamos al hashMap
+                    catalogoDeCursos.put(clave, nuevoCurso);
+                    System.out.println("Curso agregado correctamente");
+                }catch(MainException e){
+                    throw new MainException("Error al intentar agregar el curso");
+                }                           
                 break;
                 
             case 4:
+                System.out.println("Escriba el nombre del curso que desea eliminar o atras para salir");
+                String claveEliminar = sc.nextLine();
+                if(claveEliminar.equalsIgnoreCase("atras")){
+                    break;
+                }
+                Curso cursoEliminado = catalogoDeCursos.remove(claveEliminar);
+                if(cursoEliminado != null){
+                    System.out.println("Curso eliminado correctamente: " + cursoEliminado);
+                }else{
+                    System.out.println("El curso no existe");
+                }
                 break;   
             
             case 5:
+                catalogoDeCursos.mostrarTodos();
                 break;
                 
             case 6:              
-                System.out.println("Escriba la matricula del estudiante");
+                System.out.println("Escriba la matricula del estudiante o atras para salir");
                 String matInsc = sc.nextLine();
-          
+                if(matInsc.equalsIgnoreCase("atras")){
+                    break;
+                }
                 Estudiante buscar2 = new Estudiante();
                 buscar2.setMatricula(matInsc);
-                arbol.buscarNodo(buscar2);
-                if(buscar2 != null){
-                    cursoSeleccionado.inscribir(buscar2);                
-                    Inscripcion inscripcion = new Inscripcion(buscar2, cursoSeleccionado);
-                    historial.agregarAccion(new Accion("INSCRIPCION", inscripcion));  
+                Estudiante estudianteBuscado = arbol.buscar(buscar2);
+                if(estudianteBuscado != null){
+                    cursoSeleccionado.inscribir(buscar2);            
+                    System.out.println("Escriba la clave del curso a inscribir");
+                    String claveCurso = sc.nextLine();
+                    Curso cursoSelec = catalogoDeCursos.obtenerValor(claveCurso);
+                    if(cursoSelec != null){
+                        cursoSelec.inscribir(estudianteBuscado);
+                        Inscripcion inscripcion = new Inscripcion(estudianteBuscado, cursoSelec);
+                        historial.agregarAccion(new Accion("INSCRIPCION", inscripcion)); 
+                    }else{
+                        System.out.println("No se encontro el curso seleccionado");
+                    }
                 }else{
                     System.out.println("No se encontro al estudiante");
                 }
@@ -144,7 +198,7 @@ public class Menu {
                 cursoSeleccionado.getInscritos().mostrar();     
                 break;
             case 8:    
-                System.out.println("Cuantos estudiantes de la lista de espera desea mostrar?");
+                System.out.println("Cuantos estudiantes de la lista de espera desea mostrar? o atras para salir");
                 int Mostrar = sc.nextInt();
                 sc.nextLine();
            
@@ -157,8 +211,11 @@ public class Menu {
                 break;    
                 
             case 9:
-                System.out.println("Matricula del estudiante:");
+                System.out.println("Matricula del estudiante o atras para salir");
                 String mat = sc.nextLine();
+                if(mat.equalsIgnoreCase("atras")){
+                    break;
+                }
                 Estudiante est = new Estudiante();
                 est.setMatricula(mat);
                 
@@ -182,7 +239,10 @@ public class Menu {
                 break;           
             case 11:           
                 //Obtenemos a los estudiantes del arbol binario
-                ArrayList<Estudiante> estudiantes = arbol.obtenerListaEstudiantesOrdenados();               
+                ArrayList<Estudiante> estudiantes = arbol.obtenerListaEstudiantesOrdenados();        
+                if(estudiantes.isEmpty()){
+                    System.out.println("No hay estudiantes registrados");
+                }
                 AVLTree<PromedioEstudiante> avl = new AVLTree<>();
                 //Para cada estudiante calculamos y creamos un PromedioEstudiante para mandarlo al AVL
                 for(Estudiante e : estudiantes){
@@ -194,14 +254,15 @@ public class Menu {
                 break; 
                 
             case 12: 
-                System.out.println("Desea rotar roles, escriba SI/NO");
+                System.out.println("Desea rotar roles, escriba SI/NO o atras para salir");
                 String res = sc.nextLine();
+                if(res.equalsIgnoreCase("atras")){
+                    break;
+                }
                 if(res.equalsIgnoreCase("SI")){
                     String mensaje =listaCircular.rotarRol();
                     System.out.println(mensaje);
-                }else{
-                 
-                }   
+                } 
                 break;
                 
             case 13:

@@ -9,18 +9,19 @@ import Implementaciones.DoubleCircularLinkedList;
 import Implementaciones.LinkedList;
 
 /**
- *
- * @author Usuario
+ *Clase que representa un curso
  */
 public class Curso {
     
+    private String clave;
     private String nombreCurso;
     private Integer capacidadMaxima = 30;
     private LinkedList<Estudiante> inscritos;
     private DoubleCircularLinkedList<Estudiante> listaEspera;
     private int totalInscritos = 0;
 
-    public Curso(String nombreCurso, int capacidadMaxima ) {
+    public Curso(String clave,String nombreCurso, int capacidadMaxima ) {
+        this.clave = clave;
         this.nombreCurso = nombreCurso;
         this.capacidadMaxima = capacidadMaxima;
         this.inscritos = new LinkedList<>();
@@ -88,10 +89,20 @@ public class Curso {
         this.totalInscritos = totalInscritos;
     }
 
+    public String getClave() {
+        return clave;
+    }
+
+    public void setClave(String clave) {
+        this.clave = clave;
+    }
+
     @Override
     public String toString() {
-        return "Curso{" + "inscritos=" + inscritos + '}';
+        return "Curso{" + "clave=" + clave + ", nombreCurso=" + nombreCurso + ", capacidadMaxima=" + capacidadMaxima +'}';
     }
+    
+    
     
     
 }
