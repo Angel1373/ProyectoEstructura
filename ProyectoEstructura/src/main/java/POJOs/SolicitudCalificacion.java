@@ -35,7 +35,7 @@ public class SolicitudCalificacion {
         }
         // Agrega la calificacion a la lista del estudiante
         estudiante.getCalificaciones().add(calificacion) ;
-        // se Crea un objeto de tipo Accion
+        // Se crea un objeto de tipo Accion
         Accion accionCalificar = new Accion("CALIFICACION", this.estudiante);
         // Envia la accion a la pila
         acciones.agregarAccion(accionCalificar);

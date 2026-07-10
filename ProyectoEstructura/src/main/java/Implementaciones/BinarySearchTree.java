@@ -130,8 +130,11 @@ public class BinarySearchTree<T extends Comparable<T>> {
     }
     // para que regrese un dato
     public T buscar(T dato) {
-        NodoArbol<T> nodo = buscarNodoRecursivo(dato, raiz);
-        return (nodo != null) ? nodo.getElemento() : null;
+        NodoArbol<T> nodo = buscarNodoRecursivo(dato, raiz);   
+        if (nodo == null) {
+            return null;
+        }
+        return nodo.getElemento();
     }
     
     //Metodo public para obtener a los estudiantes ordenados por matricula recorriendo el arbol binario

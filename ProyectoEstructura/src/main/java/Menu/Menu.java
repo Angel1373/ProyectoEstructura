@@ -134,9 +134,7 @@ public class Menu {
                 alumno.setNombreCompleto(nomInsc);
 
                 cursoSeleccionado.inscribir(alumno);
-                
-                cursoSeleccionado.inscribir(alumno);
-                
+                                
                 Inscripcion ins = new Inscripcion(alumno, cursoSeleccionado);
                 historial.agregarAccion(new Accion("INSCRIPCION", ins));
                 break;    

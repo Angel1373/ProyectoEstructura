@@ -96,7 +96,7 @@ public class LinkedList<T> {
             posicion++;
         }
 
-        // Si lo encontramosmandamos a llamar a los metodos
+        // Si lo encontramos mandamos a llamar a los metodos
         if (encontrado) {
             if (posicion == 0) {
                 eliminarInicio();
