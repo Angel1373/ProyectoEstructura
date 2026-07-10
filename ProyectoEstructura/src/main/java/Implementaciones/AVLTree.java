@@ -40,6 +40,7 @@ public class AVLTree<T extends Comparable<T>> {
         return rebalance(actual);
     }
     
+     //Metodo para balancear un arbol
     private NodoArbolAVL<T> rebalance(NodoArbolAVL<T> actual) {
         int factorBalance = balanceFactor(actual);
         if (factorBalance < -1) {
@@ -64,10 +65,12 @@ public class AVLTree<T extends Comparable<T>> {
         return obtenerAltura(nodo.getHijoDerecho()) - obtenerAltura(nodo.getHijoIzquierdo());
     }
     
+    //Metodo para obtener la altura
     private int obtenerAltura(NodoArbolAVL<T> nodo) {
         return (nodo == null) ? -1 : nodo.getAltura();
     }
     
+    //Metodo para actualizar la altura
     private void actualizarAltura(NodoArbolAVL<T> nodo) {
         int alturaIzq = obtenerAltura(nodo.getHijoIzquierdo());
         int alturaDer = obtenerAltura(nodo.getHijoDerecho());
