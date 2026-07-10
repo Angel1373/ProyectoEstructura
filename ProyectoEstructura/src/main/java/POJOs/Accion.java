@@ -32,7 +32,7 @@ public class Accion {
                 Estudiante registro = (Estudiante) dato;
                 if (registro != null && arbolEstudiantes != null) {
                     arbolEstudiantes.eliminar(registro);
-                    System.out.println("Deshacer Registro: " + registro.getNombreCompleto());
+                    System.out.println("Deshacer el registro: " + registro.getNombreCompleto());
                     
                 }
                 break;
@@ -46,7 +46,7 @@ public class Accion {
                     curso.setTotalInscritos(curso.getTotalInscritos() - 1);
                     
                     System.out.println("Deshacer Inscripcion: " + estudiante.getNombreCompleto()
-                    + " fue removido de " + curso.getNombreCurso());
+                    + "fue removido de " + curso.getNombreCurso());
                     // Si el curso tiene lista de espera, mueve al primero hacia al curso principal
                     if (curso.getListaEspera() != null && !curso.getListaEspera().empty()) {
                         Estudiante siguiente = curso.getListaEspera().peek();
@@ -55,7 +55,7 @@ public class Accion {
                         curso.inscribir(siguiente);
                         
                         System.out.println("El estudiante " + siguiente.getNombreCompleto()
-                                + " paso de la lista de espera al curso principal. ");
+                                + "paso de la lista de espera al curso principal. ");
                     }
                 }
                 break;
@@ -64,7 +64,7 @@ public class Accion {
                 Inscripcion baja = (Inscripcion) dato;
                 if (baja != null && baja.getCurso() != null) {
                     baja.getCurso().inscribir(baja.getEstudiante());
-                    System.out.println("Deshacer Baja: " + baja.getEstudiante().getNombreCompleto()
+                    System.out.println("Deshacer la baja: " + baja.getEstudiante().getNombreCompleto()
                      + " en " + baja.getCurso().getNombreCurso() );
                     
                 }
@@ -76,7 +76,7 @@ public class Accion {
                     int ultimaPosicion = estudiante.getCalificaciones().size() - 1;
                     if (ultimaPosicion >= 0) {
                         estudiante.getCalificaciones().remove(ultimaPosicion);
-                        System.out.println("Deshacer Calificacion: Ultima nota de "
+                        System.out.println("Deshacer la calificacion y la ultima nota del estudiante: "
                          + estudiante.getNombreCompleto() + " Eliminado");
                     }
                 }

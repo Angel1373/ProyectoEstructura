@@ -199,10 +199,9 @@ public class LinkedList<T> {
 
         Nodo<T> Aux = cabeza;
         while (Aux != null) {
-            System.out.print("[" + Aux.getDato() + "] -> ");
+            System.out.print(Aux.getDato() + " - ");
             Aux = Aux.getSiguiente();
         }
-        System.out.println("Null");
 
     }
     

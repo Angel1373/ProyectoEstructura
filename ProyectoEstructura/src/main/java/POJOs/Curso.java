@@ -87,6 +87,11 @@ public class Curso {
     public void setTotalInscritos(int totalInscritos) {
         this.totalInscritos = totalInscritos;
     }
+
+    @Override
+    public String toString() {
+        return "Curso{" + "inscritos=" + inscritos + '}';
+    }
     
     
 }

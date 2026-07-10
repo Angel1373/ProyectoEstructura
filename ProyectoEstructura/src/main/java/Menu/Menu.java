@@ -56,9 +56,9 @@ public class Menu {
         System.out.println("11. Listar estudiantes ordenados por promedio");
         System.out.println("12. Rotar roles");
         System.out.println("ACCIONES--------------------------------");
-        System.out.println("13. Deshacer ultima accion");
+        System.out.println("13. Deshacer ultima accion \n\n");
         
-        
+             
         int respuesta = sc.nextInt();
         sc.nextLine();
         
@@ -101,6 +101,7 @@ public class Menu {
                 try{
                     arbol.agregar(estudiante);
                     listaCircular.agregar(estudiante);
+                    historial.agregarAccion(new Accion("REGISTRO",estudiante));
                 }catch(BinarySearchTreeException e){
                     System.out.println("Error al intentar agregar al estudiante");
                 }    
@@ -126,21 +127,22 @@ public class Menu {
             case 6:              
                 System.out.println("Escriba la matricula del estudiante");
                 String matInsc = sc.nextLine();
-                System.out.println("Escriba el nombre completo del estudiante");
-                String nomInsc = sc.nextLine();
-
-                Estudiante alumno = new Estudiante();
-                alumno.setMatricula(matInsc);
-                alumno.setNombreCompleto(nomInsc);
-
-                cursoSeleccionado.inscribir(alumno);
-                                
-                Inscripcion ins = new Inscripcion(alumno, cursoSeleccionado);
-                historial.agregarAccion(new Accion("INSCRIPCION", ins));
+          
+                Estudiante buscar2 = new Estudiante();
+                buscar2.setMatricula(matInsc);
+                arbol.buscarNodo(buscar2);
+                if(buscar2 != null){
+                    cursoSeleccionado.inscribir(buscar2);                
+                    Inscripcion inscripcion = new Inscripcion(buscar2, cursoSeleccionado);
+                    historial.agregarAccion(new Accion("INSCRIPCION", inscripcion));  
+                }else{
+                    System.out.println("No se encontro al estudiante");
+                }
                 break;    
             case 7:
                 System.out.println("Alumnos en " + cursoSeleccionado.getNombreCurso() + ":");
-                cursoSeleccionado.getInscritos().mostrar();                          
+                cursoSeleccionado.getInscritos().mostrar();     
+                break;
             case 8:    
                 System.out.println("Cuantos estudiantes de la lista de espera desea mostrar?");
                 int Mostrar = sc.nextInt();
@@ -159,6 +161,7 @@ public class Menu {
                 String mat = sc.nextLine();
                 Estudiante est = new Estudiante();
                 est.setMatricula(mat);
+                
                 Estudiante encontrado = (Estudiante) arbol.buscar(est);
                 if (encontrado != null) {
                     System.out.println("Calificacion a asignar:");

@@ -32,6 +32,11 @@ public class Inscripcion {
     public void setCurso(Curso curso) {
         this.curso = curso;
     }
+
+    @Override
+    public String toString() {
+        return "Inscripcion{" + "estudiante=" + estudiante + ", curso=" + curso + '}';
+    }
     
     
 }
