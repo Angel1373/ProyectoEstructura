@@ -30,6 +30,30 @@ public class CircularLinkedList<T> {
         //Lo mostramos
         return "Nuevo tutor o lider " + alumno.getNombreCompleto();
     }
+    // Metodo para regresar el puntero hacia atras para deshacer que esta actualmente
+    public String rotalRolAtras(){
+        // Si no hay una lista o un rol
+        if (cabeza == null || puntero == null) {
+            return "No hay roles para deshacer.";
+            
+        }
+        // Si solo hay un estudiante
+        if (cabeza.getSiguiente() == cabeza) {
+            puntero = null;
+            return "Se quito el rol";
+        
+        }
+        
+        Nodo<T> aux = cabeza;
+        // Buscamos el nodo que esta atras el puntero
+        while(aux.getSiguiente() != puntero){
+            aux = aux.getSiguiente();
+        }
+        // Hacemos que el puntero tome el nodo anterior
+        puntero = aux;
+        Estudiante alumno = (Estudiante) puntero.getDato();
+        return "El rol se regreso a " + alumno.getNombreCompleto();
+    }
     
     public T getActual(){
         if(puntero == null){

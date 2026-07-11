@@ -145,6 +145,7 @@ public class Menu {
                     //Lo mandamos al hashMap
                     catalogoDeCursos.put(clave, nuevoCurso);
                     System.out.println("Curso agregado correctamente");
+                    historial.agregarAccion(new Accion("AGREGAR_CURSO", clave));
                 }catch(MainException e){
                     throw new MainException("Error al intentar agregar el curso");
                 }                           
@@ -159,6 +160,7 @@ public class Menu {
                 Curso cursoEliminado = catalogoDeCursos.remove(claveEliminar);
                 if(cursoEliminado != null){
                     System.out.println("Curso eliminado correctamente: " + cursoEliminado);
+                    historial.agregarAccion(new Accion("ELIMINAR_CURSO", new Object[]{claveEliminar, cursoEliminado}));
                 }else{
                     System.out.println("El curso no existe");
                 }
@@ -262,13 +264,14 @@ public class Menu {
                 if(res.equalsIgnoreCase("SI")){
                     String mensaje =listaCircular.rotarRol();
                     System.out.println(mensaje);
+                    historial.agregarAccion(new Accion("ROTAR_ROLES", null));
                 } 
                 break;
                 
             case 13:
                 Accion ultima = historial.deshacerAccion();
                 if (ultima != null) {
-                    ultima.deshacer(arbol);
+                    ultima.deshacer(arbol, catalogoDeCursos, listaCircular);
                 }
                 break;
                            

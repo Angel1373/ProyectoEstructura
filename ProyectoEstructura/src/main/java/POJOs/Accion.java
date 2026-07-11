@@ -5,6 +5,8 @@
 package POJOs;
 
 import Implementaciones.BinarySearchTree;
+import Implementaciones.CircularLinkedList;
+import Implementaciones.HashMap;
 
 /**
  *
@@ -20,7 +22,8 @@ public class Accion {
     }
     
     // Metodo para revertir la operacion de la pila
-    public void deshacer(BinarySearchTree<Estudiante> arbolEstudiantes) {
+    public void deshacer(BinarySearchTree<Estudiante> arbolEstudiantes, 
+            HashMap<String, Curso> catalogoDeCursos, CircularLinkedList listaCircular) {
         if (tipo == null) {
             return;
         
@@ -79,6 +82,36 @@ public class Accion {
                         System.out.println("Deshacer la calificacion y la ultima nota del estudiante: "
                          + estudiante.getNombreCompleto() + " Eliminado");
                     }
+                }
+                break;
+                // Eliminamos del HashMap usando con su clave
+            case "AGREGAR_CURSO":
+                String claveAgregada = (String) dato;
+                if (catalogoDeCursos != null) {
+                    catalogoDeCursos.remove(claveAgregada);
+                    System.out.println("Deshacer el curso con clave " + claveAgregada + " Fue "
+                            + "eliminado del catalogo ");
+                }
+                break;
+                // Meter de nuevo al HashMap
+            case "ELIMINAR_CURSO":
+                Object[] datosCurso = (Object[]) dato;
+                String claveEliminado = (String) datosCurso[0];
+                Curso cursoRecuperar = (Curso) datosCurso[1];
+                
+                if (catalogoDeCursos != null || cursoRecuperar != null) {
+                    catalogoDeCursos.put(claveEliminado, cursoRecuperar);
+                    System.out.println("El curso " + cursoRecuperar.getNombreCurso() + 
+                            "Fue recuperado");
+                }
+                
+               
+                break;
+                // Cambiar el rol que esta actual hacia que esta el antes
+            case "ROTAR_ROLES":
+                if (listaCircular != null) {
+                    listaCircular.rotalRolAtras();
+                    System.out.println("Los roles regresaron a su estado anterior");
                 }
                 break;
             default:
