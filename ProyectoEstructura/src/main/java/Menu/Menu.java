@@ -22,6 +22,7 @@ import excepciones.BinarySearchTreeException;
 import excepciones.MainException;
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.util.InputMismatchException;
 
 /**
  * MENU DEL PROYECTO
@@ -53,8 +54,8 @@ public class Menu {
         System.out.println("6. Inscribir estudiante en curso");
         System.out.println("7. Mostrar lista de inscritos de un curso");
         System.out.println("8. Mostrar lista de espera de un curso");
-        System.out.println("CALIFICAIONES---------------------------");
-        System.out.println("9. Enviar solicitud de calificación");
+        System.out.println("CALIFICACIONES---------------------------");
+        System.out.println("9. Enviar solicitud de calificacion");
         System.out.println("10. Procesar siguiente solicitud");
         System.out.println("REPORTES--------------------------------");
         System.out.println("11. Listar estudiantes ordenados por promedio");
@@ -89,12 +90,18 @@ public class Menu {
                 String respuestasc = sc.nextLine();
                 ArrayList<Double> calificaciones = new ArrayList<>();
                 while(respuestasc.equalsIgnoreCase("SI")){
+                    try{
                     System.out.println("Escriba la calificacion del alumno");
                     double calificacion = sc.nextInt();
                     sc.nextLine();
                     calificaciones.add(calificacion);
                     System.out.println("Desea agregar otra calificacion? SI/NO");
                     respuestasc = sc.nextLine();
+                    //Excepcion del scanner por si el usuario usa un formato invalido o en este caso letras
+                    }catch(InputMismatchException e){
+                       System.out.println("Escriba un numero valido");
+                       sc.nextLine();
+                    } 
                 }
                 
                 Direccion direccion = new Direccion(calle,numero,colonia,ciudad);
@@ -136,9 +143,12 @@ public class Menu {
                 }
                 System.out.println("Escriba el nombre del curso");
                 String nombreCurso = sc.nextLine();
+                if(nombreCurso.equalsIgnoreCase("atras")){
+                    break;
+                }
                 System.out.println("Escriba el cupo maximo del curso");
                 int cupo = sc.nextInt();
-                
+                              
                 //Creamos el curso
                 Curso nuevoCurso = new Curso(clave,nombreCurso,cupo);
                 try{
@@ -167,7 +177,11 @@ public class Menu {
                 break;   
             
             case 5:
-                catalogoDeCursos.mostrarTodos();
+                if(catalogoDeCursos.isEmpty()){
+                    System.out.println("No hay cursos registrados");
+                }else{
+                    catalogoDeCursos.mostrarTodos();
+                }             
                 break;
                 
             case 6:              

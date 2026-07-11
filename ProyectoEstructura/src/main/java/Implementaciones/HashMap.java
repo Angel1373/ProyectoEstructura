@@ -101,5 +101,10 @@ public class HashMap<T,K> {
       }
     }
     
+    //Metodo para saber si esta vacio, este lo hice para usarlo en el main
+    public boolean isEmpty(){
+        return objetosActuales == 0;
+    }
+    
 }
 

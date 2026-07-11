@@ -49,7 +49,7 @@ public class Accion {
                     curso.setTotalInscritos(curso.getTotalInscritos() - 1);
                     
                     System.out.println("Deshacer Inscripcion: " + estudiante.getNombreCompleto()
-                    + "fue removido de " + curso.getNombreCurso());
+                    + " fue removido de " + curso.getNombreCurso());
                     // Si el curso tiene lista de espera, mueve al primero hacia al curso principal
                     if (curso.getListaEspera() != null && !curso.getListaEspera().empty()) {
                         Estudiante siguiente = curso.getListaEspera().peek();
@@ -58,7 +58,7 @@ public class Accion {
                         curso.inscribir(siguiente);
                         
                         System.out.println("El estudiante " + siguiente.getNombreCompleto()
-                                + "paso de la lista de espera al curso principal. ");
+                                + " paso de la lista de espera al curso principal. ");
                     }
                 }
                 break;
