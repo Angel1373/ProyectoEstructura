@@ -102,7 +102,7 @@ public class Accion {
                 if (catalogoDeCursos != null || cursoRecuperar != null) {
                     catalogoDeCursos.put(claveEliminado, cursoRecuperar);
                     System.out.println("El curso " + cursoRecuperar.getNombreCurso() + 
-                            "Fue recuperado");
+                            " Fue recuperado");
                 }
                 
                

@@ -35,7 +35,6 @@ public class Menu {
         ArrayListQueue<SolicitudCalificacion> colaSolicitudes = new ArrayListQueue<>(SolicitudCalificacion.class, 50);
         Acciones historial = new Acciones();
         HashMap<String,Curso> catalogoDeCursos = new HashMap<>(20);
-        Curso cursoSeleccionado = new Curso("2","Estructuras de Datos", 30);
         Scanner sc = new Scanner(System.in);
 
         while(true){             
