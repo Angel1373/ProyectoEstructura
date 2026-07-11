@@ -157,6 +157,44 @@ public class DoubleCircularLinkedList<T> {
         inicio.setAnterior(penultimo);
         
     }
+    
+    public void eliminar(T dato){
+        if (inicio == null) {
+            System.out.println("Lista vacia");
+            return;
+        }
+        Nodo<T> aux = inicio;
+        int posicion = 0;
+        boolean encontrado = false;
+        // Recorrer la lista hasta el penultimo nodo
+        while (aux.getSiguiente() != inicio) {
+            if (aux.getDato().equals(dato)) {
+                encontrado = true;
+                break;
+            }
+            aux = aux.getSiguiente();
+            posicion++;
+            
+            
+        }
+        // Verificar el ultimo nodo
+        if (!encontrado && aux.getDato().equals(dato)) {
+            encontrado = true;
+        }
+        // Si lo encontramos mandamos a llamar a los metodos para eliminar
+        if (encontrado) {
+            if (posicion == 0) {
+                eliminarInicio();
+            }else if (aux == inicio.getAnterior()) {
+                eliminarFinal();
+            }else{
+                eliminarMedio(posicion);
+            }
+        }else{
+            System.out.println("Elemento no encontrado en la lista");
+        }
+    }
+    
     public void actualizarInicio(T dato){
         if (inicio == null) {
             throw new ListException("La lista esta vacia");

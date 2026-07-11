@@ -62,6 +62,17 @@ public class Accion {
                     }
                 }
                 break;
+                // Saca el estudiante de la lista de espera del curso
+            case "INSCRIPCION_ESPERA":
+                Inscripcion inscripcionEspera = (Inscripcion) dato;
+                if (inscripcionEspera != null && inscripcionEspera.getCurso() != null) {
+                    Curso cursoEspera = inscripcionEspera.getCurso();
+                    Estudiante estudianteEspera = inscripcionEspera.getEstudiante();
+                    cursoEspera.getListaEspera().eliminar(estudianteEspera);
+                    System.out.println("Deshacer la inscripcion a la lista de esoera " + 
+                            estudianteEspera.getNombreCompleto()+ " fue removido a " + cursoEspera.getNombreCurso());
+                }
+                break;
                 // Reinscribe al estudiante en el curso
             case "BAJA":
                 Inscripcion baja = (Inscripcion) dato;
@@ -69,7 +80,6 @@ public class Accion {
                     baja.getCurso().inscribir(baja.getEstudiante());
                     System.out.println("Deshacer la baja: " + baja.getEstudiante().getNombreCompleto()
                      + " en " + baja.getCurso().getNombreCurso() );
-                    
                 }
                 break;
                 //Busca al estudiante, accede a su lista de notas y elimina la ultima agregada

@@ -199,8 +199,14 @@ public class Menu {
                     if(cursoSelec != null){
                         cursoSelec.inscribir(estudianteBuscado);
                         Inscripcion inscripcion = new Inscripcion(estudianteBuscado, cursoSelec);
-                        historial.agregarAccion(new Accion("INSCRIPCION", inscripcion)); 
+                        if (cursoSelec.getTotalInscritos() <= cursoSelec.getCapacidadMaxima()) {
+                            historial.agregarAccion(new Accion("INSCRIPCION",inscripcion));
+                            
+                        }else{
+                            historial.agregarAccion(new Accion("INSCRIPCION_ESPERA",inscripcion));
+                        }
                     }else{
+    
                         System.out.println("No se encontro el curso seleccionado");
                     }
                 }else{
